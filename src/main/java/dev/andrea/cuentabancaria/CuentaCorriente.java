@@ -2,7 +2,7 @@ package dev.andrea.cuentabancaria;
 
 public class CuentaCorriente extends Cuenta {
 
-    private float sobreGiro;
+    private float sobregiro;
 
     public CuentaCorriente(float saldo, float tasaAnual) {
         super(saldo, tasaAnual);
@@ -17,10 +17,10 @@ public class CuentaCorriente extends Cuenta {
     @Override
     public void consignar(float cantidad) {
         super.consignar(cantidad);
-        if (sobreGiro > 0) {
-            sobreGiro = sobreGiro - cantidad;
-            if (sobreGiro < 0) {
-                sobreGiro = 0;
+        if (sobregiro > 0) {
+            sobregiro = sobregiro - cantidad;
+            if (sobregiro < 0) {
+                sobregiro = 0;
             }
         }
     }
@@ -36,7 +36,7 @@ public class CuentaCorriente extends Cuenta {
         resultado = resultado + "Saldo: " + saldo;
         resultado = resultado + "\ncomisionMensual: " + comisionMensual;
         resultado = resultado + "\ntotalTransacciones: " + totalTransacciones;
-        resultado = resultado + "\nsobreGiro: " + sobreGiro;
+        resultado = resultado + "\nsobregiro: " + sobregiro;
         return resultado;
     }
 
@@ -45,14 +45,14 @@ public class CuentaCorriente extends Cuenta {
         if (cantidad <= saldo) {
             saldo = saldo - cantidad;
         } else {
-            sobreGiro = sobreGiro + (cantidad - saldo);
+            sobregiro = sobregiro + (cantidad - saldo);
             saldo = 0;
         }
         numRetiros++;
     }
 
-    public float getSobreGiro() {
-        return sobreGiro;
-}
+    public float getSobregiro() {
+        return sobregiro;
+    }
 
 }

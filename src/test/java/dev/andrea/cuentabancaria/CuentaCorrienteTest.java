@@ -12,7 +12,7 @@ public class CuentaCorrienteTest {
     @Test
     public void testConstructor() {
         CuentaCorriente cuenta = new CuentaCorriente(1000, 5);
-        assertEquals(0, cuenta.getSobreGiro());
+        assertEquals(0, cuenta.getSobregiro());
     }
 
     static Stream<Arguments> retirarTestCases() {
@@ -28,7 +28,7 @@ public class CuentaCorrienteTest {
         CuentaCorriente cuenta = new CuentaCorriente(saldoInicial, 5);
         cuenta.retirar(cantidad);
         assertEquals(saldoEsperado, cuenta.saldo);
-        assertEquals(sobreGiroEsperado, cuenta.getSobreGiro());
+        assertEquals(sobreGiroEsperado, cuenta.getSobregiro());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class CuentaCorrienteTest {
         CuentaCorriente cuenta = new CuentaCorriente(1000, 5);
         cuenta.consignar(1500);
         assertEquals(2500, cuenta.saldo);
-        assertEquals(0, cuenta.getSobreGiro());
+        assertEquals(0, cuenta.getSobregiro());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CuentaCorrienteTest {
         cuenta.retirar(1500);
         cuenta.consignar(1500);
         assertEquals(1500, cuenta.saldo);
-        assertEquals(0, cuenta.getSobreGiro());
+        assertEquals(0, cuenta.getSobregiro());
     }
 
     @Test
