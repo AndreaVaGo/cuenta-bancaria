@@ -2,6 +2,10 @@ package dev.andrea.cuentabancaria;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
 
 public class CuentaCorrienteTest {
 
@@ -11,20 +15,20 @@ public class CuentaCorrienteTest {
         assertEquals(0, cuenta.getSobreGiro());
     }
 
-    @Test
-    public void testRetirarSinSobregiro(){
-        CuentaCorriente cuenta = new CuentaCorriente(20000, 5);
-        cuenta.retirar(500);
-        assertEquals(19500, cuenta.saldo);
-        assertEquals(0, cuenta.getSobreGiro());
+    static Stream<Arguments> retirarTestCases() {
+        return Stream.of(
+            Arguments.of(20000f, 500f, 19500f, 0f),
+            Arguments.of(1000f, 1500f, 0f, 500f)
+        );
     }
 
-    @Test
-    public void testRetirarConSobregiro(){
-        CuentaCorriente cuenta = new CuentaCorriente(1000, 5);
-        cuenta.retirar(1500);
-        assertEquals(0, cuenta.saldo);
-        assertEquals(500, cuenta.getSobreGiro());
+    @ParameterizedTest
+    @MethodSource("retirarTestCases")
+    public void testRetirarParametrizado(float saldoInicial, float cantidad, float saldoEsperado, float sobreGiroEsperado) {
+        CuentaCorriente cuenta = new CuentaCorriente(saldoInicial, 5);
+        cuenta.retirar(cantidad);
+        assertEquals(saldoEsperado, cuenta.saldo);
+        assertEquals(sobreGiroEsperado, cuenta.getSobreGiro());
     }
 
     @Test

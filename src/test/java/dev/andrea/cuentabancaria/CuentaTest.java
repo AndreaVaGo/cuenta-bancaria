@@ -3,6 +3,10 @@ package dev.andrea.cuentabancaria;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
 
 public class CuentaTest {
 
@@ -21,20 +25,20 @@ public class CuentaTest {
         assertEquals(1, cuenta.numConsignaciones);
     }
 
-    @Test
-    public void testRetirar() {
-        Cuenta cuenta = new Cuenta(1000, 5);
-        cuenta.retirar(300);
-        assertEquals(700, cuenta.saldo);
-        assertEquals(1, cuenta.numRetiros);
+    static Stream<Arguments> retirarTestCases() {
+        return Stream.of(
+            Arguments.of(1000f, 300f, 700f, 1),
+            Arguments.of(1000f, 1500f, 1000f, 0)
+        );
     }
 
-    @Test
-    public void testRetirarSuperaSaldo() {
-        Cuenta cuenta = new Cuenta(1000, 5);
-        cuenta.retirar(1500);
-        assertEquals(1000, cuenta.saldo);
-        assertEquals(0, cuenta.numRetiros);
+    @ParameterizedTest
+    @MethodSource("retirarTestCases")
+    public void testRetirarParametrizado(float saldoInicial, float cantidad, float saldoEsperado, int numRetirosEsperado) {
+        Cuenta cuenta = new Cuenta(saldoInicial, 5);
+        cuenta.retirar(cantidad);
+        assertEquals(saldoEsperado, cuenta.saldo);
+        assertEquals(numRetirosEsperado, cuenta.numRetiros);
     }
 
     @Test

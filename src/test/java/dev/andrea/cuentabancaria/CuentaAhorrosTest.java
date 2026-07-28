@@ -2,6 +2,10 @@ package dev.andrea.cuentabancaria;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
 
 public class CuentaAhorrosTest {
 
@@ -17,35 +21,37 @@ public class CuentaAhorrosTest {
         assertEquals(false, cuenta.getCuentaAhorrosActiva());
     }
 
-    @Test
-    public void testConsignarCuentaActiva() {
-        CuentaAhorros cuenta = new CuentaAhorros(10000, 5);
-        cuenta.consignar(500);
-        assertEquals(10500, cuenta.saldo);
+    static Stream<Arguments> consignarTestCases() {
+        return Stream.of(
+            Arguments.of(10000f, 500f, 10500f),
+            Arguments.of(10f, 500f, 10f)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("consignarTestCases")
+    public void testConsignarParametrizado(float saldoInicial, float cantidad, float saldoEsperado) {
+        CuentaAhorros cuenta = new CuentaAhorros(saldoInicial, 5);
+        cuenta.consignar(cantidad);
+        assertEquals(saldoEsperado, cuenta.saldo);
+    }
+
+    static Stream<Arguments> retirarTestCases() {
+        return Stream.of(
+            Arguments.of(20000f, 500f, 19500f),
+            Arguments.of(10f, 500f, 10f)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("retirarTestCases")
+    public void testRetirarParametrizado(float saldoInicial, float cantidad, float saldoEsperado) {
+        CuentaAhorros cuenta = new CuentaAhorros(saldoInicial, 5);
+        cuenta.retirar(cantidad);
+        assertEquals(saldoEsperado, cuenta.saldo);
     }
 
     @Test
-    public void testConsignarCuentaInactiva() {
-        CuentaAhorros cuenta = new CuentaAhorros(10, 5);
-        cuenta.consignar(500);
-        assertEquals(10, cuenta.saldo);
-    }
-
-    @Test
-    public void testRetirarCuentaActiva() {
-        CuentaAhorros cuenta = new CuentaAhorros(20000, 5);
-        cuenta.retirar(500);
-        assertEquals(19500, cuenta.saldo);
-    }
-
-    @Test
-    public void testRetirarCuentaInactiva() {
-        CuentaAhorros cuenta = new CuentaAhorros(10, 5);
-        cuenta.retirar(500);
-        assertEquals(10, cuenta.saldo);
-    }
-
-   @Test
     public void testExtractoMensualConComisionExtra() {
         CuentaAhorros cuenta = new CuentaAhorros(20000, 5);
         cuenta.numRetiros = 6;
@@ -61,7 +67,6 @@ public class CuentaAhorrosTest {
         String resultado = cuenta.imprimirResumen();
         assertEquals(true, resultado.contains("Saldo: 20500.0"));
         assertEquals(true, resultado.contains("totalTransacciones: 2"));
-
-}
+    }
 
 }
