@@ -51,4 +51,8 @@ public class CuentaCorriente extends Cuenta {
         numRetiros++;
     }
 
+    public float getSobreGiro() {
+        return sobreGiro;
+}
+
 }

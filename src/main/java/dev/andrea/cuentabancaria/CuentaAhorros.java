@@ -56,6 +56,6 @@ public class CuentaAhorros extends Cuenta {
 
     public boolean getCuentaAhorrosActiva() {
     return cuentaAhorrosActiva;
-}
+    }
 
 }
