@@ -56,7 +56,7 @@ public class CuentaCorrienteTest {
         String resultado = cuenta.imprimirResumen();
         assertEquals(true, resultado.contains("Saldo: 20500.0"));
         assertEquals(true, resultado.contains("totalTransacciones: 2"));
-        assertEquals(true, resultado.contains("sobreGiro: 0.0"));
+        assertEquals(true, resultado.contains("sobregiro: 0.0"));
     }
 
 }
